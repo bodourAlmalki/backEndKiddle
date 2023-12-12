@@ -8,7 +8,7 @@ const url = process.env.URL;
 const db = async () => {
 try {
     mongoose.set("strictQuery", false);
-    await mongoose.connect(url, {
+    await mongoose.connect("mongodb+srv://raneemaljamal:c4a@cluster0.tum9ppj.mongodb.net/bodor?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     });

@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import asyncHandler from 'express-async-handler';
 import user from '../Models/userModel.js';
+const jwtSecret = "123456";
 
 const registerUser = asyncHandler(async (req, res) => {
   console.log(req.body);
@@ -37,7 +38,7 @@ const registerUser = asyncHandler(async (req, res) => {
       lastName: newUser.name,
       email: newUser.email,
       role: newUser.role,
-      token: generateToken({ userId: user._id }, process.env.JWT_SECRET),
+      token: generateToken({ userId: user._id }, jwtSecret),
     });
   } else {
     res.status(400);
@@ -63,7 +64,7 @@ const loginUser = asyncHandler(async (req, res) => {
   if (loginUser && (await bcrypt.compare(password, loginUser.password))) {
     const token = jwt.sign(
       { user_id: loginUser._id, email, role: loginUser.role },
-      process.env.JWT_SECRET,
+      jwtSecret,
       {
         expiresIn: '2h',
       }
